@@ -10,6 +10,6 @@ TestCase("SetupApp", {
 		assertObject(Paperless.Models.Accounts);
 		assertObject(Paperless.Models.Actions);	
 		assertObject(Paperless.Models.Files);
-		assertObject(Paperless.Models.Steps);
+		assertObject(Paperless.Models.AccountStepsGroups);
 	}
 });

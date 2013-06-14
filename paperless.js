@@ -37,7 +37,8 @@ var Paperless = {
 						client_id:{label:'Client', formType:'text'},
 						//TODO this needs to be dropdown
 						account_type_id:{label:'Account Type', formType:'text'},
-						notes:{label:'Notes', formType:'textarea'}						
+						notes:{label:'Notes', formType:'textarea'},
+						steps:{label:'Steps', formType:'textarea'}						
 					}
 				 }	
 			});
@@ -68,7 +69,21 @@ var Paperless = {
 						notes:{label:'Notes', formType:'textarea'}						
 					}
 				 }	
-			});						
+			});
+			new MCOR.Model('AccountStepsGroups', {
+				pk:'id',
+				structure:{
+					fields:{
+						id:{label:'Id', formType:'hidden'},
+						account_type_id:{label:'Account Type', formType:'text'},
+						steps:{label:'Steps', formType:'text'}	
+					}
+				 }	
+			});							
 		}
-	}
+	},
+	
+	init: function(){
+		$aC($g('content'), [Paperless.Views.Main.init()]);
+	}	
 }
