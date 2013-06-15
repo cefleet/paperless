@@ -6,10 +6,12 @@ TestCase("SetupApp", {
 	"test will show that the models have been created": function(){
 		Paperless.Setup.create_models();
 		
-		assertObject(Paperless.Models.Clients);
-		assertObject(Paperless.Models.Accounts);
-		assertObject(Paperless.Models.Actions);	
-		assertObject(Paperless.Models.Files);
-		assertObject(Paperless.Models.AccountStepsGroups);
-	}
+		assertInstanceOf(MCOR.Model, Paperless.Models.Clients);
+		assertInstanceOf(MCOR.Model, Paperless.Models.Accounts);
+		assertInstanceOf(MCOR.Model, Paperless.Models.Actions);	
+		assertInstanceOf(MCOR.Model, Paperless.Models.Files);
+		assertInstanceOf(MCOR.Model, Paperless.Models.Blotters);
+		assertInstanceOf(MCOR.Model, Paperless.Models.Agents);
+		
+	} 
 });

@@ -70,20 +70,31 @@ var Paperless = {
 					}
 				 }	
 			});
-			new MCOR.Model('AccountStepsGroups', {
+			new MCOR.Model('Blotters', {
 				pk:'id',
 				structure:{
 					fields:{
 						id:{label:'Id', formType:'hidden'},
 						account_type_id:{label:'Account Type', formType:'text'},
-						steps:{label:'Steps', formType:'text'}	
+						account_id:{label:'Account Type', formType:'text'},
+						step:{label:'Steps', formType:'text'}
 					}
 				 }	
-			});							
+			});
+			new MCOR.Model('Agents', {
+				pk:'id',
+				structure:{
+					fields:{
+						id:{label:'Id', formType:'hidden'},
+						name:{label:'Agent Name', formType:'text'},
+						step:{label:'Steps', formType:'text'}
+					}
+				 }	
+			});						
 		}
 	},
 	
 	init: function(){
-		$aC($g('content'), [Paperless.Views.Main.init()]);
+		$aC(document.body, [Paperless.Views.Main.init()]);
 	}	
 }
