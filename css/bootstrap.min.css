@@ -875,3 +875,6 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 
 /* Bootstrapish stuff added by me */
 .pointer { cursor: pointer; cursor: hand; }
+body{
+	margin-top:50px;
+}

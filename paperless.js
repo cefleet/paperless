@@ -52,8 +52,10 @@ var Paperless = {
 						account_id:{label:'Acount', formType:'textarea'},
 						action_type:{label:'Action Type', formType:'text'},
 						date:{label:'Action Date', formType:'text'},
-						notes: {label:'notes', formType:'textarea'}						
-					}
+						notes: {label:'Notes', formType:'textarea'},
+						agent:{label:'Agent', formType:'text'}						
+					},
+					order:['date','agent','action_type','notes','client_id', 'account_id']
 				 }	
 			});
 			new MCOR.Model('Files', {
@@ -95,6 +97,7 @@ var Paperless = {
 	},
 	
 	init: function(){
+		Paperless.Setup.create_models();
 		$aC(document.body, [Paperless.Views.Main.init()]);
 	}	
 }
