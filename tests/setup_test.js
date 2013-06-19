@@ -11,7 +11,7 @@ TestCase("SetupApp", {
 		assertInstanceOf(MCOR.Model, Paperless.Models.Actions);	
 		assertInstanceOf(MCOR.Model, Paperless.Models.Files);
 		assertInstanceOf(MCOR.Model, Paperless.Models.Blotters);
-		assertInstanceOf(MCOR.Model, Paperless.Models.Agents);
+		assertInstanceOf(MCOR.Model, Paperless.Models.Agents); 
 		
 	} 
 });
