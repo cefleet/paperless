@@ -1,13 +1,9 @@
-//These are just for the General Class
-TestCase("OperationsActionsTest", {
-	//This yest just check out the general elements
+TestCase("OperationsActionsTesters", {
 	setUp: function(){
-		MCOR.appName = 'paperless';		
+		MCOR.appName = 'paperless';
 	},
-	"test will show that the create_new_form will fire create the form in a modal": function(){
-		var newActionForm = Paperless.Operations.Actions.create_new_form(); 
-		
-		assertClassName('modal', newActionForm);		
-	}
-	
+	"test will show that the create_new_form will create and add the modal to the dom": function(){
+		Paperless.Operations.Actions.create_new_form(); 
+		assertClassName('modal', $g('ActionModal')); 	  	
+	}	
 });

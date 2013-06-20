@@ -2,8 +2,8 @@
 
 var daFiles = [
 	"Views.js",
-	"Operations.js",
-	"Elements.js"
+	"Elements.js",
+	"Operations.js"
 ];
 
 for (var i=0, len=daFiles.length; i<len; i++) {

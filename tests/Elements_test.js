@@ -14,6 +14,10 @@ TestCase("ElementsTestGeneral", {
 		var panel = Paperless.Elements.General.panel();
 		
 		assertClassName('well', panel);
+	},
+	"test will show that the modeal element will be created": function(){
+		var modal = Paperless.Elements.General.modal();
+		
 	}	
 });
 TestCase("ElementsTestActions", {
@@ -22,7 +26,7 @@ TestCase("ElementsTestActions", {
 		MCOR.appName = 'paperless';
 		Paperless.init();
 	},
-	 
+	  
 	"test will show that the Action panel has been created": function(){
 		var panel = Paperless.Elements.Actions.panel();
 		
@@ -43,16 +47,19 @@ TestCase("ElementsTestActions", {
 	},
 	
 	"test will show that the 'New Action' button will react correctly": function(){
-		Paperless.Operations.Actions.create_new_form = function(){
-			returnValue = 'It was created';
-		}
-		var panel = Paperless.Elements.Actions.panel();
-		var returnValue = null;	
-		
+		var panel = Paperless.Elements.Actions.panel();	
 		var button = panel.childNodes[0].childNodes[0].childNodes[1];
 		button.click();
-		//simulateClick(button);
-		assertNotNull(returnValue);
+
+		//this means the full funciton has been ran run. runeded
+		assertClassName('modal', $g('ActionModal'));
+	},
+	"test will show that the 'New Action' button will create a form in th modal": function(){
+		var modal = Paperless.Elements.Actions.new_action_modal();
+		
+		assertClassName('modal', modal);
+		assertTagName('form', modal.childNodes[1].childNodes[0]);
+		
 	}
 
 });
