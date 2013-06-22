@@ -198,7 +198,61 @@ MCOR.Forms  = {
 		//$aC(elem,[label,dropdown]);		
 		return elem;
 	},
+	/*
+	 * Function: dropdown
+	 * A Dropdown Form Element
+	 * 
+	 * Parameters:
+	 * 	fieldObject - {OBJECT}
+	 * 		{
+	 * 			fieldName: {STRING} //The column name of the field
+	 * 			fieldLabel: {STRING} //The Label for the field
+	 * 			fieldOptions : {JSON OBJECT} (dropdownList needs to be one of the attributes)
+	 * 		}
+	 * 	fieldValue - {STRING} The value for this input
+	 *  disabled - {BOOL} Set true to have the disabled attribute set to disabled
+	 * 
+	 */
 	
+	dropdown_from_table: function(fieldObject,fieldValue,disabled){
+		if(typeof fieldValue == 'undefined' || fieldValue == 'null' || fieldValue == null){
+			fieldValue = '';
+		}
+		var dropdown = $nE('select', {id:fieldObject.fieldName,name:fieldObject.fieldName});
+				
+		var elem = $nE('div',{id:'field_'.concat(fieldObject.fieldName), 'class':'text control-group'},[
+			$nE('label', {'for':'field_'.concat(fieldObject.fieldName), "class":"control-label"}, $cTN(fieldObject.fieldLabel)),
+			$nE('div', {"class":"controls"},[
+				dropdown
+			]) 
+		]);		
+	
+		if(disabled == true){
+			dropdown.setAttribute('disabled','disabled');
+		}
+		//if it is JSON it's fine and it is null it is fine
+		if(typeof fieldObject.queryInfo != 'object'){
+			try{
+			fieldObject.queryInfo = JSON.parse(fieldObject.queryInfo);
+			}catch(err){
+				fieldObject.queryInfo = {};
+			}	
+		}
+		
+		var updateList = function(resp){
+			//TODO add this to the item
+			console.log(dropdown);
+			console.log(resp);
+		}
+		
+		//TODO get the list of items as JSON array
+		MCOR.Models[fieldObject.queryInfo.model].get_list(
+			{'conditions':{
+				field:fieldObject.queryInfo.field, 
+				value:fieldObject.queryInfo.value}
+			}, updateList);
+		return elem;
+	},
 	/*
 	 * Function: checkbox
 	 * A checkbox form element
