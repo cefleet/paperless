@@ -49,7 +49,7 @@ var Paperless = {
 						id:{label:'Id', formType:'hidden'},
 						//different formtype and have some way of linking them (MCOR change)
 						client_id:{label:'Client', formType:'text'},
-						account_id:{label:'Acount', formType:'textarea'},
+						account_id:{label:'Acount', formType:'text'},
 						action_type:{label:'Action Type', formType:'text'},
 						date:{label:'Action Date', formType:'text'},
 						notes: {label:'Notes', formType:'textarea'},
