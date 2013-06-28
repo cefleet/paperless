@@ -246,11 +246,13 @@ MCOR.Forms  = {
 		}
 		
 		//TODO get the list of items as JSON array
-		MCOR.Models[fieldObject.queryInfo.model].get_list(
-			{'conditions':{
-				field:fieldObject.queryInfo.field, 
-				value:fieldObject.queryInfo.value}
-			}, updateList);
+		if(MCOR.Models.hasOwnProperty(fieldObject.queryInfo.model)){
+			MCOR.Models[fieldObject.queryInfo.model].get_list(
+				{'conditions':{
+					field:fieldObject.queryInfo.field, 
+					value:fieldObject.queryInfo.value}
+				}, updateList);
+		}
 		return elem;
 	},
 	/*
