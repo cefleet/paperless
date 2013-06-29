@@ -1,30 +1,24 @@
 MCOR.Model = MCOR.Class({
-	//initialize : function(modelName, dbTable, pk, structure, options){
+
 	  dbTable : null,
 	  pk : null,
 	  structure : null,
-	  connectionType:null,
+
 	  initialize : function(modelName){
-	  	//old order dbtTable,pk,structure,options
   		var init = {};
   		var options = {};
   		this.structure = {};
   		
-  		//this indicates it is the old way:
-  		//Deprecated .. lol even before a release
-  		if(typeof arguments === 'undefined' || arguments[1] == null || typeof arguments[1] === 'string') {	
-  			init.dbTable = arguments[1];
-  			init.pk = arguments[2];
-  			init.structure = arguments[3];
-  			options = arguments[4]; 
-  		} else {
-  			init = arguments[1];
-  			//TODO is this supposed to be 3? or 2?
-  			options = arguments[2];
-  		}
+  		//This is the object when an item is initilized
+  		init = arguments[1];
+  		//The extra options added to the model
+  		options = arguments[2];
+  		
+  		//If there is not a connection type it will be set to local
 		if(!init.conType){
-			init.conType = 'LocS';
+			init.conType = 'local';
 		}
+		//applying the items to the model
 		this.modelName = modelName;
 		this.dbTable = init.dbTable;
 		this.conType = init.conType;
@@ -32,41 +26,23 @@ MCOR.Model = MCOR.Class({
 		this.database = init.database;
 		this.structure = MCOR.Util.extend(this.structure, init.structure);
 		
+		//TODO this should error out of you are trying to do this local
 		if(this.structure == 'auto'){
 			this.get_structure();
 		}
-		if(this.conType == 'LocS'){
-			if(typeof localStorage[MCOR.appName+".MCOR."+this.modelName] != 'string'){
-				localStorage[MCOR.appName+".MCOR."+this.modelName] = '[]';
-			}
+		
+		//if it is local setup the database
+		if(this.conType == 'local'){
+			this.localDB = new Lawnchair({adapter:['webkit-sqlite'], table:this.dbTable, name:this.dbTable});
 		}
-		if(this.conType == 'WebSQL'){
-			//you need database name
-			//this.webSqlDB = window.openDatabase(this.database, "1.0", this.database, 1000000);
-			this.WebSqlDB = window.openDatabase(this.database, "1.0", this.databaseLabel, 100000);
-			//structure is required here
-			var fieldNames = '';
-			for(var field in this.structure.fields){
-				if(field != this.pk){
-					fieldNames = fieldNames.concat(', '+field);
-				} else {
-					fieldNames = field.concat(fieldNames+' unique')
-				}
-			}	
-			var dbTable = this.dbTable;		
-			var trans = function(tx){
-				var sql = 'CREATE TABLE IF NOT EXISTS '+dbTable+' ('+fieldNames+')';
-				tx.executeSql(sql);
-			};
-			//this creates the database if it is not created
-			this.WebSqlDB.transaction(trans);	
-		}
+		
 		if(this.structure == null){
 			this.structure = {
 				fields: {},
 				order:[]	
 			}
 		}
+		
 		//TODO you will have odd results if you do not do something for times when the structure 'auto' is used
 		if(!this.structure.hasOwnProperty('fields')){
 			this.structure.fields = {};
@@ -84,9 +60,10 @@ MCOR.Model = MCOR.Class({
 MCOR.Model.prototype = {
 	/*
 	 * Function: get_structure
-	 * cannot test
+	 * cannot test. Only usable if going to be server
 	 */
 	get_structure : function(){
+		
 		new MCOR.Ajax.Request('api/get_structure/'+this.dbTable, {
 			onComplete: function(resp){
 				resp.responseJSON.columns.forEach(function(column){
@@ -121,6 +98,11 @@ MCOR.Model.prototype = {
 	get_single : function(id, callback){
 		
 		//LOCAL STORAGE
+		if(this.conType == 'local'){
+			this.localDB.where('record.key === "'+id+'"', function(r){
+				callback(r);
+			});	
+		}		
 		if(this.conType == 'LocS') {
 			var localStoreData = JSON.parse(localStorage[MCOR.appName+".MCOR."+this.modelName]);
 			var found = null;
